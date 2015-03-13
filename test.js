@@ -40,4 +40,24 @@ describe('replaces', function () {
     assume(replaces(yes, re, data)).equals('yes yes');
     assume(replaces(no, re, data)).equals('no nope');
   });
+
+  describe('modifiers', function () {
+    describe('<>', function () {
+      it('escapes the output as HTML', function () {
+        var tpl = '{test<>html}, {test:html}'
+          , data = { html: '<div>' };
+
+        assume(replaces(tpl, re, data)).equals('&lt;div&gt;, <div>');
+      });
+    });
+
+    describe('~', function () {
+      it('escapes the output as JSON', function () {
+        var tpl = '{test~data}, {test:data}'
+          , data = { data: { structure: 'hi' } };
+
+        assume(replaces(tpl, re, data)).equals('{"structure":"hi"}, [object Object]');
+      });
+    });
+  });
 });

@@ -48,7 +48,10 @@ function replaces(what, tag, data) {
   return what.replace(tag, function replace(tag, modifier, key) {
     var value = find(data, key);
 
-    if (modifier in replaces.modifier) return replaces.modifier(key, value);
+    if (modifier in replaces.modifier) {
+      return replaces.modifier[modifier](key, value);
+    }
+
     return value;
   });
 }
