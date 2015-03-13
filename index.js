@@ -30,7 +30,9 @@ function find(data, prop) {
     structure = result;
   }
 
-  return result || data[prop];
+  return 'undefined' === typeof result
+  ? data[prop]
+  : result;
 }
 
 /**
