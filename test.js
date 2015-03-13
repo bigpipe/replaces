@@ -31,4 +31,13 @@ describe('replaces', function () {
     assume(replaces(yes, re, data)).equals('yes true');
     assume(replaces(no, re, data)).equals('no false');
   });
+
+  it('can return data from an nested array', function () {
+    var no = 'no {test:deep.nesting.1.what}'
+      , yes = 'yes {test:deep.nesting.0.what}'
+      , data = { deep: { nesting: [ { what: 'yes' }, { what: 'nope' } ]} };
+
+    assume(replaces(yes, re, data)).equals('yes yes');
+    assume(replaces(no, re, data)).equals('no nope');
+  });
 });

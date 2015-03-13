@@ -26,7 +26,7 @@ function find(data, prop) {
     , i = 0;
 
   for (; i < length && structure; i++) {
-    result = structure[+paths[i] || paths[i]];
+    result = structure[paths[i]];
     structure = result;
   }
 
