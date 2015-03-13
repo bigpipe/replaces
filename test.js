@@ -59,5 +59,23 @@ describe('replaces', function () {
         assume(replaces(tpl, re, data)).equals('{"structure":"hi"}, [object Object]');
       });
     });
+
+    describe('%', function () {
+      it('escapes the output', function () {
+        var tpl = '{test%data}, {test:data}'
+          , data = { data: 'hello world' };
+
+        assume(replaces(tpl, re, data)).equals('hello%20world, hello world');
+      });
+    });
+
+    describe('@', function () {
+      it('escapes circular references');
+    });
+
+    describe('$', function () {
+      it('escapes circular references');
+      it('escapes HTML inside the JSON');
+    });
   });
 });
