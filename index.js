@@ -17,7 +17,7 @@ var stringify = require('json-stringify-safe');
  * @api private
  */
 function find(data, prop) {
-  if (!prop || !~prop.indexOf('.')) return data[prop];
+  if (!prop || !~prop.indexOf('.') || prop in data) return data[prop];
 
   var paths = prop.split('.')
     , length = paths.length
@@ -30,9 +30,7 @@ function find(data, prop) {
     structure = result;
   }
 
-  return 'undefined' === typeof result
-  ? data[prop]
-  : result;
+  return result;
 }
 
 /**

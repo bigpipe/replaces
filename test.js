@@ -32,6 +32,13 @@ describe('replaces', function () {
     assume(replaces(no, re, data)).equals('no false');
   });
 
+  it('can find data on prop, even if it uses dot notation', function () {
+    var yes = 'yes {test:deep.nesting.yes}'
+      , data = { 'deep.nesting.yes': true };
+
+    assume(replaces(yes, re, data)).equals('yes true');
+  });
+
   it('can return data from an nested array', function () {
     var no = 'no {test:deep.nesting.1.what}'
       , yes = 'yes {test:deep.nesting.0.what}'
@@ -81,8 +88,20 @@ describe('replaces', function () {
     });
 
     describe('$', function () {
-      it('escapes circular references');
-      it('escapes HTML inside the JSON');
+      it('escapes circular references', function () {
+        var data = { foo: 'bar', data: { foo: '<div class="woop">hi</div>' } }
+          , tpl = '{test$data}, {test:data}';
+
+        data.data.data = data.data;
+        assume(replaces(tpl, re, data)).equals('{"foo":"&lt;div class=&quot;woop&quot;&gt;hi&lt;&#x2F;div&gt;","data":"[Circular ~]"}, [object Object]');
+      });
+
+      it('escapes HTML inside the JSON', function () {
+        var tpl = '{test$data}, {test:data}'
+          , data = { data: { structure: '<div class="woop">hi</div>' } };
+
+        assume(replaces(tpl, re, data)).equals('{"structure":"&lt;div class=&quot;woop&quot;&gt;hi&lt;&#x2F;div&gt;"}, [object Object]');
+      });
     });
   });
 });
