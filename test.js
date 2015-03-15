@@ -70,7 +70,14 @@ describe('replaces', function () {
     });
 
     describe('@', function () {
-      it('escapes circular references');
+      it('escapes circular references', function () {
+        var data = { foo: 'bar', data: { foo: 'foo' } }
+          , tpl = '{test@data}, {test:data}';
+
+        data.data.data = data.data;
+
+        assume(replaces(tpl, re, data)).equals('{"foo":"foo","data":"[Circular ~]"}, [object Object]');
+      });
     });
 
     describe('$', function () {
