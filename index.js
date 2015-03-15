@@ -116,7 +116,19 @@ replaces.modifier = {
    * @api private
    */
   '$': function save(key, data) {
-    var replacer = replaces.modifier['<>'];
+    /**
+     * Private replacer which will run all string content through the replaces
+     * HTML entities modifier.
+     *
+     * @param {String} key Key of the data we're trying to replace.
+     * @param {Mixed} data Actual content that we're inserting.
+     * @returns {String}
+     * @api private
+     */
+    function replacer(key, data) {
+      if ('string' === typeof data) return replaces.modifier['<>'](key, data);
+      return data;
+    }
 
     try { return JSON.stringify(data, replacer); }
     catch (e) { return stringify(data, replacer); }
