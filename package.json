@@ -1,6 +1,6 @@
 {
   "name": "replaces",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Micro template engine that can automatically escape data.",
   "main": "index.js",
   "scripts": {
