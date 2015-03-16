@@ -60,7 +60,7 @@ Would produce the following output in the console.
 
 ```
 <div></div>
-<div>{fittings@deeply}</div>
+<div>{"nested":{"data":"structures"}}</div>
 ```
 
 ### Modifiers
