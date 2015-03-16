@@ -73,7 +73,7 @@ replaces.modifier = {
    * @api private
    */
   '<>': function escape(key, data) {
-    return data.toString().replace(/[&<>"'\/]/g, function replace(char) {
+    return data.toString().replace(/[&<>"']/g, function replace(char) {
       return replaces.entities[char];
     });
   },
@@ -156,7 +156,6 @@ replaces.entities = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',
-  '/': '&#x2F;',
   '"': '&quot;',
   "'": '&#39;',
 };

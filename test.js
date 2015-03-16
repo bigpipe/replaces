@@ -56,6 +56,13 @@ describe('replaces', function () {
 
         assume(replaces(tpl, re, data)).equals('&lt;div&gt;, <div>');
       });
+
+      it('does not escape or break slashes', function () {
+        var tpl = '{test<>html}, {test:html}'
+          , data = { html: '/3846c91f105fc08b0b5993c7045c314553f28052.js' };
+
+        assume(replaces(tpl, re, data)).equals(data.html +', '+ data.html);
+      });
     });
 
     describe('~', function () {
@@ -93,14 +100,14 @@ describe('replaces', function () {
           , tpl = '{test$data}, {test:data}';
 
         data.data.data = data.data;
-        assume(replaces(tpl, re, data)).equals('{"foo":"&lt;div class=&quot;woop&quot;&gt;hi&lt;&#x2F;div&gt;","data":"[Circular ~]"}, [object Object]');
+        assume(replaces(tpl, re, data)).equals('{"foo":"&lt;div class=&quot;woop&quot;&gt;hi&lt;/div&gt;","data":"[Circular ~]"}, [object Object]');
       });
 
       it('escapes HTML inside the JSON', function () {
         var tpl = '{test$data}, {test:data}'
           , data = { data: { structure: '<div class="woop">hi</div>' } };
 
-        assume(replaces(tpl, re, data)).equals('{"structure":"&lt;div class=&quot;woop&quot;&gt;hi&lt;&#x2F;div&gt;"}, [object Object]');
+        assume(replaces(tpl, re, data)).equals('{"structure":"&lt;div class=&quot;woop&quot;&gt;hi&lt;/div&gt;"}, [object Object]');
       });
     });
   });
