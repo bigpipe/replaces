@@ -47,7 +47,7 @@ function replaces(what, tag, data) {
     var value = find(data, key);
 
     if (modifier in replaces.modifier) {
-      return replaces.modifier[modifier](key, value);
+      return replaces.modifier[modifier](key, value, data);
     }
 
     return value;
@@ -101,6 +101,25 @@ replaces.modifier = {
    */
   '@': function circular(key, data) {
     return stringify(data);
+  },
+
+  /**
+   * Repeat the provided string for each element of the array in the data
+   * structure.
+   *
+   * @param {String} key Key of the data to replace * the string to repeat.
+   * @param {Mixed} data Actual content to insert.
+   * @param {Array} data Reference to original data.
+   * @returns {String}
+   * @api private
+   */
+  '!': function spread(key, value, data) {
+    key = key.split('*');
+    value = find(data, key[0]);
+
+    return value.map(function iterate(n) {
+      return key[1].replace('@', n);
+    }).join('');
   },
 
   /**

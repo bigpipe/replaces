@@ -94,6 +94,17 @@ describe('replaces', function () {
       });
     });
 
+    describe('!', function () {
+      it('repeats the string for each array value', function () {
+        var tpl = '{test!js*<script src="@"></script>}, {test:text}'
+          , data = { js: ['md5-1.js', 'md5-2.js'], text: 'regular' };
+
+        assume(replaces(tpl, re, data)).equals(
+          '<script src="md5-1.js"></script><script src="md5-2.js"></script>, regular'
+        );
+      });
+    });
+
     describe('$', function () {
       it('escapes circular references', function () {
         var data = { foo: 'bar', data: { foo: '<div class="woop">hi</div>' } }
