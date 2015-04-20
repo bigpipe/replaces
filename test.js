@@ -48,6 +48,13 @@ describe('replaces', function () {
     assume(replaces(no, re, data)).equals('no nope');
   });
 
+  it('the found data is `toString()`d', function () {
+    var tpl = 'hello {test:data}'
+      , data = { data: { toString: function () { return 'world'; }}};
+
+    assume(replaces(tpl, re, data)).equals('hello world');
+  });
+
   describe('modifiers', function () {
     describe('<>', function () {
       it('escapes the output as HTML', function () {
