@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "json-stringify-safe": "5.0.x",
-    "propget": "1.0.x"
+    "propget": "~1.1.0"
   }
 }
