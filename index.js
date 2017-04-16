@@ -74,6 +74,18 @@ replaces.modifier = {
   },
 
   /**
+   * Explicitly call toString on the provided data.
+   *
+   * @param {String} key Key of the data we're trying to replace.
+   * @param {Mixed} data Actual content that we're inserting.
+   * @returns {String}
+   * @api private
+   */
+  '!': function toString(key, data) {
+    return data.toString();
+  },
+
+  /**
    * The safest of all various of modifiers, encode the data as a JSON structure
    * while making sure that the values inside the JSON cannot contain HTML
    * structures.

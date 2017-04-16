@@ -101,6 +101,30 @@ describe('replaces', function () {
       });
     });
 
+    describe('!', function () {
+      it('calls toString on the data', function () {
+        var tpl = '{test!js}, {test:text}'
+          , js = ['md5-1.js', 'md5-2.js']
+          , data = { js: js, text: 2 };
+
+        // Define custom toString on array for demonstration purposes.
+        Object.defineProperty(js, 'toString', {
+          enumarble: false,
+          value: function toString() {
+            var result = ''
+              , n;
+
+            for (n in this) result += '<script src="'+ this[n] +'"></script>';
+            return result;
+          }
+        });
+
+        assume(replaces(tpl, re, data)).equals(
+          '<script src="md5-1.js"></script><script src="md5-2.js"></script>, 2'
+        );
+      });
+    });
+
     describe('$', function () {
       it('escapes circular references', function () {
         var data = { foo: 'bar', data: { foo: '<div class="woop">hi</div>' } }
